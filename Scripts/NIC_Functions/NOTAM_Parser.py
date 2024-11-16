@@ -35,7 +35,7 @@ else:
                 # Wrap the NOTAM in parentheses before decoding
                 k = f"({notam_condition_subject_title})"
                 w = notam.Notam.from_str(k)
-                decoded_text = w.decoded() #
+                decoded_text = w.decoded() ##
                 decoded_text = decoded_text[1:-1]
                 print(w.valid_from)
 

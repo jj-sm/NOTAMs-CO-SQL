@@ -54,7 +54,6 @@ elif select == 4:
 
         # Retrieve and print the NOTAM Condition Subject Title
         notam_title = get_notam_condition_subject_title(notam_lta_number)
-        print(f"Decoded NOTAM for {notam_lta_number}:\n{notam_title}")
+        # print(f"Decoded NOTAM for {notam_lta_number}:\n{notam_title}")
     except ImportError as e:
         print(f"Error importing NOTAM_Parser.py: {e}")
-

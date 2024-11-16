@@ -1,53 +1,58 @@
-import os
 import sqlite3
-import PyNotam.notam as notam  # Import the notam module for decoding
+import os
+import PyNotam.notam as notam
 
-def get_notam_condition_subject_title(notam_lta_number: str):
-    """
-    Retrieve the NOTAM condition subject title for a given NOTAM_LTA_Number from the database,
-    decode it using the Notam class, and return the decoded NOTAM.
+# Example NOTAM_LTA_Number to test
+notam_lta_number = 'A2396/24'
 
-    Args:
-        notam_lta_number (str): The NOTAM_LTA_Number to look up.
+# Correct relative path to the database
+db_path = os.path.join(os.path.dirname(__file__), '../../Data', 'notams_database.db')
 
-    Returns:
-        str: The decoded NOTAM condition subject title.
-    """
-    # Database file location
-    db_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-        "Data",
-        "notams_database.db"
-    )
-
-    if not os.path.exists(db_path):
-        raise FileNotFoundError(f"Database not found at {db_path}")
-
-    # Connect to the SQLite database
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    # Query to find the NOTAM details
-    cursor.execute(
-        "SELECT NOTAM_Condition_Subject_Title FROM ALL_NOTAMS WHERE NOTAM_LTA_Number = ?",
-        (notam_lta_number,))
-    result = cursor.fetchone()
-
-    if not result:
-        conn.close()
-        return f"Error: NOTAM with LTA number {notam_lta_number} not found."
-
-    # Extract the NOTAM condition subject title
-    notam_condition_subject_title = result[0]
-
-    # Decode the NOTAM using the Notam class
+# Check if the database file exists
+if not os.path.exists(db_path):
+    print(f"Database file not found: {db_path}")
+else:
     try:
-        notam_obj = notam.Notam.from_str(notam_condition_subject_title)
-        decoded_notam = notam_obj.decoded()  # Decoded full NOTAM text
+        # Connect to the SQLite database
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        # Query the database for the NOTAM with the given LTA number
+        cursor.execute("SELECT NOTAM_Condition_Subject_Title FROM ALL_NOTAMS WHERE NOTAM_LTA_Number = ?",
+                       (notam_lta_number,))
+        row = cursor.fetchone()
+
+        # Check if the NOTAM was found
+        if row:
+            # Extract the raw NOTAM from the database
+            notam_condition_subject_title = row[0]
+
+            # Print the raw NOTAM with correct formatting
+            print(f"--- Raw NOTAM ---\n{notam_condition_subject_title}\n")
+
+            # Decode using the notam library
+            try:
+                # Wrap the NOTAM in parentheses before decoding
+                k = f"({notam_condition_subject_title})"
+                w = notam.Notam.from_str(k)
+                decoded_text = w.decoded()
+                decoded_text = decoded_text[1:-1]
+                print(w.valid_from)
+
+                # Print the decoded NOTAM as the Text Description with correct formatting
+                print("--- Text Description ---")
+                print(f"{decoded_text}\n")
+
+            except Exception as e:
+                print(f"Error decoding the NOTAM: {e}")
+
+        else:
+            print(f"NOTAM with LTA number {notam_lta_number} not found.")
+
+    except sqlite3.Error as e:
+        print(f"Error connecting to SQLite database: {e}")
     except Exception as e:
+        print(f"Unexpected error: {e}")
+    finally:
+        # Close the database connection
         conn.close()
-        return f"Error decoding NOTAM: {str(e)}"
-
-    conn.close()
-
-    return decoded_notam

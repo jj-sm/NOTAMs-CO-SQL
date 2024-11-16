@@ -51,3 +51,18 @@ def generate_hexagon_for_airport(icao_code, resource_dir="Resources", output_dir
             file.write(f"{lat:.5f}:{lon:.5f}\n")
 
     return output_path_decimal
+
+def generate_hexagon_for_airport_inline(icao_code, resource_dir="Resources", radius_nm=15):
+    """Generate hexagon coordinates as a formatted string for direct insertion."""
+    # Define file paths
+    csv_path = os.path.join(resource_dir, "sk_airports.csv")
+
+    # Get airport coordinates
+    lat, lon = find_airport_coordinates(icao_code, csv_path)
+
+    # Generate hexagon coordinates
+    hexagon = hexagon_coordinates(lat, lon, radius_nm)
+
+    # Format coordinates as a string
+    hexagon_str = " ".join(f"{lat:.5f}:{lon:.5f}" for lat, lon in hexagon)
+    return hexagon_str

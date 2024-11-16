@@ -3,6 +3,8 @@ import os
 import NIC_Functions.PyNotam.notam as notam
 from NIC_Functions.Hexagon_AP import generate_hexagon_for_airport
 
+## PLACE HOLDER API REQUEST
+
 # Ensure the NIC_Functions directory is in the Python path
 base_dir = os.path.dirname(os.path.abspath(__file__))
 nic_functions_dir = os.path.join(base_dir, 'NIC_Functions')

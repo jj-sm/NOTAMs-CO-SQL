@@ -1,5 +1,3 @@
-# Client ID: 7caab856-751b-40d7-ba13-e43da92c5003
-# Pass: X8NVLruCcNIIGXmFyqgzSwAMiZex3mof
 
 import requests
 

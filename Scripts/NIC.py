@@ -103,8 +103,7 @@ elif select == 5:
         # Call the function to generate the hexagon
         hexagon_file = generate_hexagon_for_airport(
             icao_code=icao_code,
-            resource_dir=os.path.join(base_dir, "Resources"),
-            output_dir=os.path.join(base_dir, "Output"),
+            output_dir=os.path.join(base_dir, "Output"),  # resource_dir removed
             radius_nm=radius_nm
         )
 
@@ -113,5 +112,4 @@ elif select == 5:
         print(f"Value Error: {ve}")
     except Exception as e:
         print(f"An error occurred: {e}")
-else:
-    print("Invalid selection. Please choose a valid option.")
+

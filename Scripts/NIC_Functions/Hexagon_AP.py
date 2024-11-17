@@ -1,6 +1,7 @@
 import math
 import csv
 import os
+from pathlib import Path
 
 def hexagon_coordinates(lat, lon, radius_nm):
     """Generate coordinates for a hexagon centered at (lat, lon) with a radius in NM."""
@@ -65,4 +66,26 @@ def generate_hexagon_for_airport_inline(icao_code, resource_dir="Resources", rad
 
     # Format coordinates as a string
     hexagon_str = " ".join(f"{lat:.5f}:{lon:.5f}" for lat, lon in hexagon)
+    return hexagon_str
+
+
+def generate_hexagon_for_airport_inline_v2(icao_code):
+    """Generate hexagon coordinates as a formatted string for direct insertion."""
+    # Define the absolute path to the CSV file
+    csv_path = Path(__file__).resolve().parent.parent / "Resources" / "sk_airports.csv"
+
+    # Ensure the file exists
+    if not csv_path.exists():
+        raise FileNotFoundError(f"The file {csv_path} does not exist!")
+
+    # Get airport coordinates from the CSV
+    lat, lon = find_airport_coordinates(icao_code, csv_path)
+
+    # Generate hexagon coordinates with a default radius of 15 nautical miles
+    radius_nm = 15
+    hexagon = hexagon_coordinates(lat, lon, radius_nm)
+
+    # Format coordinates as a string "lat:lon"
+    hexagon_str = "".join(f"{lat:.5f}:{lon:.5f}\n" for lat, lon in hexagon)
+
     return hexagon_str

@@ -183,3 +183,5 @@ CREATE TABLE Displayed_NOTAMS (
 
 Made with ❤ by [657678](http://ivao.aero/Member.aspx?Id=657678)
 
+![](https://status.ivao.aero/R/657678.png)
+

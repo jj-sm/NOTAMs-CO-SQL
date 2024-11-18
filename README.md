@@ -13,6 +13,9 @@ SKED, SKEC, SKBO, SKRG, SKCG, SKCL, SKBQ, SKSP, SKSM, SKPE, SKBG, SKMD, SKMR, SK
 > [!WARNING]
 > The app makes extensive use of [PyNotam - Parser](https://github.com/slavak/PyNotam) that was modified to this purpose. **NOT ALL NOTAMS WORK WITH THIS PARSER, THIS MIGHT BE AN ISSUE FOR SOME COUNTRIES' NOTAMs**
 
+> [!CAUTION]
+> At this time, I was not able to create an `.exe` or `.dmg`/`.app` for W11/MacOS. The only way to use it is by running the Python script. Make sure to have `requirements.txt` installed. Check Installation instructions below.
+
 ## Usage
 <p align="center">
   <img width="754" alt="image" src="https://github.com/user-attachments/assets/ca38ec45-4899-4b44-8d24-47ceda30deaa">

@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'  # Triggers on tags starting with 'v', e.g., v1.0.0
+  workflow_dispatch:  # Allow manual triggering for testing
+
+permissions:
+  contents: write  # Ensure the GITHUB_TOKEN has write access to repository contents
 
 jobs:
   build-and-release:
@@ -31,7 +35,13 @@ jobs:
         run: |
           zip -r NOTAMs-CO-SQL.zip . -x ".git/*" "*.github/*" "tests/*"
 
-      # Step 5: Create a release
+      # Step 5: Debug Token Permissions (optional step for debugging)
+      - name: Debug Token Permissions
+        run: |
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               https://api.github.com/repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission
+
+      # Step 6: Create a release
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -45,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 6: Upload the ZIP file as a release asset
+      # Step 7: Upload the ZIP file as a release asset
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         with:

@@ -85,7 +85,7 @@ def fetch_notams(lta_codes):
             polygon = ""
             resource_dir = os.path.join(os.path.dirname(__file__), '../Resources')
             if location in AIRPORTS or location in CENTER:
-                if location in ['SKEC', 'SKED']:
+                if location in CENTER:
                     print(f"Fetching polygon for {location} from file.")
                     polygon = get_polygon_from_center_file(location, resource_dir)
                 else:

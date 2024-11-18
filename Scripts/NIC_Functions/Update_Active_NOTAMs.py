@@ -2,8 +2,8 @@
 import requests
 
 # Your client ID and secret
-CLIENT_ID = '7caab856-751b-40d7-ba13-e43da92c5003'
-CLIENT_SECRET = 'X8NVLruCcNIIGXmFyqgzSwAMiZex3mof'
+CLIENT_ID = 'xxx'
+CLIENT_SECRET = 'xxx'
 
 # The token endpoint for OAuth2 authentication
 TOKEN_URL = 'https://api.ivao.aero/oauth/token'

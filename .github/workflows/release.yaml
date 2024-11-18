@@ -1,0 +1,42 @@
+name: Create Release ZIP
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on tags starting with 'v', e.g., v1.0.0
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python (if your project requires it)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Adjust as per your project requirements
+
+      # Step 3: Install dependencies (if needed)
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Create a ZIP file
+      - name: Create ZIP file
+        run: |
+          zip -r NOTAMs-CO-SQL.zip . -x ".git/*" "*.github/*" "tests/*"
+
+      # Step 5: Upload the ZIP file as a release asset
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_id: ${{ github.event.release.id }}
+          asset_path: ./NOTAMs-CO-SQL.zip
+          asset_name: NOTAMs-CO-SQL.zip
+          asset_content_type: application/zip

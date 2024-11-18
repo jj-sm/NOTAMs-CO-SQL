@@ -2,13 +2,16 @@
 
 This is the repository for the Colombian Division NOTAM system. Where it's feeded manually and automatically fetched into our database where NOTAMs that enhance simulation are selected for deploy at IVAO. 
 
-This tool helps ATC Ops staff to make this process easier.
+This tool helps ATC Ops staff to make this process easier. 
 
 The following list includes the airports we are fetching NOTAMs from our source:
 
 ```text
 SKED, SKEC, SKBO, SKRG, SKCG, SKCL, SKBQ, SKSP, SKSM, SKPE, SKBG, SKMD, SKMR, SKCC, SKVP, SKAR, SKUI, SKYP, SKPS, SKNV, SKLT, SKMZ, SKIB, SKLC, SKVV, SKRH, SKCO, SKEJ, SKUC, SKPP, SKFL, SKCZ, SKAS, SKPG, SKBS, SKCU, SKPD, SKMU, SKPV, SKPC, SKLM, SKNA, SKNQ, SKGP, SKVG, SKSJ, SKSA, SKPB, SKIP, SKPI, SKLG
 ```
+
+> [!WARNING]
+> The app makes extensive use of [PyNotam - Parser](https://github.com/slavak/PyNotam) that was modified to this purpose. **NOT ALL NOTAMS WORK WITH THIS PARSER, THIS MIGHT BE AN ISSUE FOR SOME COUNTRIES' NOTAMs**
 
 ## Usage
 <p align="center">
@@ -70,10 +73,12 @@ SKED, SKEC, SKBO, SKRG, SKCG, SKCL, SKBQ, SKSP, SKSM, SKPE, SKBG, SKMD, SKMR, SK
 </p>
 
 ## Instalation
-This app has a GUI interface (see requirements.txt) for the necessary packages.
+This app has a GUI interface (see requirements.txt) for the necessary packages. 
 
-
-
+Run:
+```bash
+pip install -r requirements.txt
+```
 
 ## About the Database
 The database is stored locally on `Data/notams_database.db` and was created by using

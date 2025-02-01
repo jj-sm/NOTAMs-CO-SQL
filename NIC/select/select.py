@@ -8,17 +8,17 @@ import threading
 import sys
 import os
 
-# Get the current script's directory
-current_dir = os.path.dirname(__file__)
-
-# Construct the relative path to the NIC_Functions directory
-nic_functions_path = os.path.join(current_dir, '../../Scripts/NIC_Functions')
-
-# Add the relative path to the system path
-sys.path.append(nic_functions_path)
+# # Get the current script's directory
+# current_dir = os.path.dirname(__file__)
+#
+# # Construct the relative path to the NIC_Functions directory
+# nic_functions_path = os.path.join(current_dir, '../NIC_Functions')
+#
+# # Add the relative path to the system path
+# sys.path.append(nic_functions_path)
 
 # Now you can import the necessary function
-from Select_Out_NOTAMs import process_notams
+from NIC.NIC_Functions.Select_Out_NOTAMs import process_notams
 
 
 
@@ -38,18 +38,47 @@ def append_message_to_output(message: str):
     entry_2.insert("end", f"{message}\n")
     entry_2.see("end")  # Scroll to the latest message
 
+import os
+import subprocess
+from pathlib import Path
+
+def get_documents_folder():
+    # Check for the user's home directory
+    home_dir = os.path.expanduser("~")
+
+    # Known localized folder names for Documents (you can expand this list if needed)
+    localized_documents_names = ["Documents", "Dokumente", "Documents", "Mes Documents"]
+
+    for folder_name in localized_documents_names:
+        potential_path = os.path.join(home_dir, folder_name)
+        if os.path.isdir(potential_path):
+            return potential_path
+    # Default to English "Documents" if nothing matches
+    return os.path.join(home_dir, "Documents")
+
+
+def append_message_to_output(message: str):
+    """
+    Append a message to the `entry_2` Text widget.
+    """
+    entry_2.insert("end", f"{message}\n")
+    entry_2.see("end")  # Scroll to the latest message
+
 
 def open_selection_result():
     """Open the Selection_Result.csv file using the default system application."""
-    SELECTION_RESULT_PATH = BASE_PATH.parent.parent / "Scripts" / "Output" / "Selection_Result.csv"
-    if SELECTION_RESULT_PATH.exists():
+    user_documents_folder = get_documents_folder()
+    nic_folder = os.path.join(user_documents_folder, "NIC")
+    selection_result_path = os.path.join(nic_folder, "Selection_Result.csv")
+
+    if os.path.exists(selection_result_path):
         try:
             if os.name == 'nt':  # For Windows
-                os.startfile(SELECTION_RESULT_PATH)
+                os.startfile(selection_result_path)
             elif os.name == 'posix':  # For macOS and Linux
-                subprocess.run(['open', SELECTION_RESULT_PATH])  # macOS
-                # subprocess.run(['xdg-open', SELECTION_RESULT_PATH])  # For Linux
-            append_message_to_output(f"Opened file: {SELECTION_RESULT_PATH}")
+                subprocess.run(['open', selection_result_path])  # macOS
+                # subprocess.run(['xdg-open', selection_result_path])  # For Linux
+            append_message_to_output(f"Opened file: {selection_result_path}")
         except Exception as e:
             append_message_to_output(f"Error opening file: {e}")
     else:
@@ -58,11 +87,14 @@ def open_selection_result():
 
 def clear_selection_result():
     """Clear the contents of Selection_Result.csv."""
-    SELECTION_RESULT_PATH = BASE_PATH.parent.parent / "Scripts" / "Output" / "Selection_Result.csv"
+    user_documents_folder = get_documents_folder()
+    nic_folder = os.path.join(user_documents_folder, "NIC")
+    selection_result_path = os.path.join(nic_folder, "Selection_Result.csv")
+
     try:
-        with open(SELECTION_RESULT_PATH, 'w') as file:
+        with open(selection_result_path, 'w') as file:
             file.truncate(0)  # Clear the file contents
-        append_message_to_output(f"File cleared: {SELECTION_RESULT_PATH}")
+        append_message_to_output(f"File cleared: {selection_result_path}")
     except Exception as e:
         append_message_to_output(f"Error clearing file: {e}")
 
@@ -80,6 +112,7 @@ def execute_notams_processing():
 
 # Create the Tkinter window
 window = Tk()
+window.title('Select NOTAMs')
 
 window.geometry("515x488")
 window.configure(bg="#181818")

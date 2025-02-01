@@ -1,6 +1,6 @@
 import sqlite3
 import os
-import PyNotam.notam as notam
+import NIC.NIC_Functions.PyNotam.notam as notam
 
 # Correct relative path to the database
 db_path = os.path.join(os.path.dirname(__file__), '../../Data', 'notams_database.db')

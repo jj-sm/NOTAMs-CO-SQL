@@ -1,4 +1,7 @@
-pandas==2.2.3
-parsimonious==0.10.0
-Requests==2.32.3
-tkinterdnd2==0.4.2
+pandas
+parsimonious
+Requests
+tkinterdnd2
+tk
+pyinstaller
+pathlib

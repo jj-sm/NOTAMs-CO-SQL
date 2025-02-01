@@ -1,7 +1,7 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 # Import the function to generate the hexagon coordinates
-from Scripts.NIC_Functions.Hexagon_AP import generate_hexagon_for_airport_inline_v2
+from NIC.NIC_Functions.Hexagon_AP import generate_hexagon_for_airport_inline_v2
 
 # Path setup
 OUTPUT_PATH = Path(__file__).parent
@@ -15,6 +15,7 @@ def relative_to_assets(path: str) -> Path:
 
 # GUI Setup
 window = Tk()
+window.title("NOTAM Polygons")
 window.geometry("515x488")
 window.configure(bg="#181818")
 

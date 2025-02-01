@@ -1,7 +1,8 @@
 import csv
 import os
-from NOTAM_Parser import get_notam_condition_subject_title, decode_notam
-from Hexagon_AP import generate_hexagon_for_airport_inline  # Import the inline hexagon function
+from NIC.NIC_Functions.NOTAM_Parser import get_notam_condition_subject_title, decode_notam
+from NIC.NIC_Functions.Hexagon_AP import generate_hexagon_for_airport_inline  # Import the inline hexagon function
+import platform
 
 # Database path for NOTAM records
 db_path = os.path.join(os.path.dirname(__file__), '../../Data', 'notams_database.db')
@@ -116,13 +117,33 @@ def fetch_notams(lta_codes):
     return notams_data
 
 
+def get_documents_folder():
+    # Check for the user's home directory
+    home_dir = os.path.expanduser("~")
+
+    # Known localized folder names for Documents (you can expand this list if needed)
+    localized_documents_names = ["Documents", "Dokumente", "Documents", "Mes Documents", 'Documentos']
+
+    for folder_name in localized_documents_names:
+        potential_path = os.path.join(home_dir, folder_name)
+        if os.path.isdir(potential_path):
+            return potential_path
+    # Default to English "Documents" if nothing matches
+    return os.path.join(home_dir, "Documents")
+
 def process_notams(lta_codes_input):
     lta_codes = [code.strip() for code in lta_codes_input.replace(',', ' ').replace(';', ' ').replace('\n', ' ').replace(':', ' ').split()]
     notams_data = fetch_notams(lta_codes)
 
-    output_dir = os.path.join(os.path.dirname(__file__), '../Output')
-    os.makedirs(output_dir, exist_ok=True)
-    output_file = os.path.join(output_dir, 'Selection_Result.csv')
+    # Get the correct Documents folder based on the system's language
+    user_documents_folder = get_documents_folder()
+
+    # Create a NIC folder in the Documents directory
+    nic_folder = os.path.join(user_documents_folder, "NIC")
+    os.makedirs(nic_folder, exist_ok=True)
+
+    # Define the output file path
+    output_file = os.path.join(nic_folder, 'Selection_Result.csv')
 
     with open(output_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=['LTA_CODE', 'CENTER', 'LOCATION', 'StartTime', 'ExpirationTime',

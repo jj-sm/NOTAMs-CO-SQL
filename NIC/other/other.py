@@ -4,7 +4,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 # Import the function that clears the database
-from Scripts.NIC_Functions.Clear_ALL_NOTAMs import clear_database_out
+from NIC.NIC_Functions.Clear_ALL_NOTAMs import clear_database_out
 
 OUTPUT_PATH = Path(__file__).parent
 BASE_PATH = Path(__file__).resolve().parent
@@ -24,6 +24,7 @@ def on_button_3_click(entry):
         entry.insert("end", f"An error occurred: {e}")
 
 window = Tk()
+window.title('Other Functions')
 
 window.geometry("312x488")
 window.configure(bg="#181818")

@@ -19,6 +19,7 @@ def relative_to_assets(path: str) -> Path:
 
 # Initialize the TkinterDnD window
 window = TkinterDnD.Tk()
+window.title('Upload NOTAMs')
 
 window.geometry("312x488")
 window.configure(bg="#181818")
@@ -100,6 +101,7 @@ entry_1.place(
     height=124.0
 )
 
+# noinspection PyInterpreter
 canvas.create_text(
     58.0,
     207.0,

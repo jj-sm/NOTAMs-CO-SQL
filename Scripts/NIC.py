@@ -1,7 +1,6 @@
 import sys
 import os
-import NIC_Functions.PyNotam.notam as notam
-from NIC_Functions.Hexagon_AP import generate_hexagon_for_airport
+from NIC.NIC_Functions import generate_hexagon_for_airport
 
 ## PLACE HOLDER API REQUEST
 
@@ -28,7 +27,7 @@ if type(select) != int:
 
 if select == 1:
     try:
-        import NIC_Functions.Update_NOTAMs
+        pass
     except ImportError as e:
         print(f"Error importing Update_NOTAMs.py: {e}")
 
@@ -38,7 +37,7 @@ elif select == 2:
 
     try:
         # Import the process_notams function from Select_Out_NOTAMs
-        from NIC_Functions.Select_Out_NOTAMs import process_notams
+        from NIC.NIC_Functions import process_notams
 
         # Call the process_notams function directly with user input
         process_notams(user_input)
@@ -57,7 +56,7 @@ elif select == 3:
     ))
     if select_two == 1:
         try:
-            from NIC_Functions.Clear_ALL_NOTAMs import clear_database
+            from NIC.NIC_Functions import clear_database
             clear_database()  # Call the function explicitly
         except ImportError as e:
             print(f"Error importing Clear_ALL_NOTAMs.py: {e}")
@@ -67,7 +66,7 @@ elif select == 4:
     notam_lta_number = input("Enter the NOTAM_LTA_Number to retrieve: ")
 
     try:
-        from NIC_Functions.NOTAM_Parser import get_notam_condition_subject_title, decode_notam
+        from NIC.NIC_Functions import get_notam_condition_subject_title, decode_notam
 
         # Retrieve the NOTAM Condition Subject Title
         notam_title = get_notam_condition_subject_title(notam_lta_number)

@@ -1,7 +1,7 @@
 from pathlib import Path
 import sqlite3
 import os
-import Scripts.NIC_Functions.PyNotam.notam as notam
+import NIC.NIC_Functions.PyNotam.notam as notam
 from tkinter import Tk, Canvas, Text, Button, PhotoImage
 
 # Correct relative path to the database
